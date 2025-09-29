@@ -108,7 +108,7 @@ class ControlButton:
 # Create control buttons
 minimize_btn = ControlButton(WIDTH - 80, 10, 30, 25, "_", (100, 100, 100))
 maximize_btn = ControlButton(WIDTH - 45, 10, 30, 25, "□", (100, 100, 100))
-close_btn = ControlButton(WIDTH - 15, 10, 25, 25, "X", (200, 60, 60))
+close_btn = ControlButton(WIDTH - 15, 10, 25, 25, "x", (200, 60, 60))
 
 # Window state
 is_fullscreen = False
