@@ -59,8 +59,10 @@ class Button:
     def update_position(self, screen_width, screen_height):
         # Keep buttons at their original relative positions
         # This maintains the same position regardless of window size
-        self.rect.x = self.original_x
-        self.rect.y = self.original_y
+        # self.rect.x = self.original_x
+        # self.rect.y = self.original_y
+        self.rect.x = screen_width // 2 - 150
+        self.rect.y = screen_height - 120
         
     def draw(self, surface):
         color = BUTTON_HOVER if self.is_hovered else BUTTON_COLOR
