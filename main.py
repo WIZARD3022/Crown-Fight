@@ -76,8 +76,8 @@ class Button:
         return False
 
 # Create buttons
-button1 = Button(WIDTH//2 - 150, HEIGHT - 250, 140, 50, "Sign In")
-button2 = Button(WIDTH//2 + 10, HEIGHT - 250, 140, 50, "Sign Up")
+button1 = Button(WIDTH//2 - 150, HEIGHT - 350, 140, 50, "Sign In")
+button2 = Button(WIDTH//2 + 10, HEIGHT - 350, 140, 50, "Sign Up")
 
 # Control buttons for window management
 class ControlButton:
