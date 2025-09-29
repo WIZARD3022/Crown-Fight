@@ -1,2 +1,20 @@
 myenv/
 script.sh
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+env/
+
+# MongoDB
+*.ns
+mongod.log
