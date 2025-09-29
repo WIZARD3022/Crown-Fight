@@ -51,12 +51,16 @@ class Button:
         self.rect = pygame.Rect(x, y, width, height)
         self.text = text
         self.is_hovered = False
-        self.original_pos = (x, y, width, height)
+        self.original_x = x
+        self.original_y = y
+        self.width = width
+        self.height = height
         
     def update_position(self, screen_width, screen_height):
-        # Update button position based on screen size
-        self.rect.x = screen_width // 2 - 150
-        self.rect.y = screen_height - 120
+        # Keep buttons at their original relative positions
+        # This maintains the same position regardless of window size
+        self.rect.x = self.original_x
+        self.rect.y = self.original_y
         
     def draw(self, surface):
         color = BUTTON_HOVER if self.is_hovered else BUTTON_COLOR
@@ -75,9 +79,9 @@ class Button:
             return self.rect.collidepoint(pos)
         return False
 
-# Create buttons
-button1 = Button(WIDTH//2 - 150, HEIGHT - 350, 140, 50, "Sign In")
-button2 = Button(WIDTH//2 + 10, HEIGHT - 350, 140, 50, "Sign Up")
+# Create buttons at fixed positions (from your original placement)
+button1 = Button(WIDTH//2 - 150, HEIGHT - 300, 140, 50, "Sign In")
+button2 = Button(WIDTH//2 + 10, HEIGHT - 300, 140, 50, "Sign Up")
 
 # Control buttons for window management
 class ControlButton:
@@ -86,6 +90,13 @@ class ControlButton:
         self.text = text
         self.color = color
         self.is_hovered = False
+        self.original_x = x
+        self.original_y = y
+        
+    def update_position(self, screen_width, screen_height):
+        # Control buttons stay in top-right corner
+        self.rect.x = screen_width - 80
+        self.rect.y = 10
         
     def draw(self, surface):
         color = (min(self.color[0] + 30, 255), 
@@ -133,21 +144,22 @@ while running:
                 screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
                 background_image, image_loaded = load_background_image(WIDTH, HEIGHT)
                 overlay = create_overlay(WIDTH, HEIGHT)
-                # Update button positions
+                # Update button positions - Sign In/Sign Up stay at their original positions
                 button1.update_position(WIDTH, HEIGHT)
-                button2.rect.x = WIDTH//2 + 10
-                button2.rect.y = HEIGHT - 120
+                button2.update_position(WIDTH, HEIGHT)
                 # Update control buttons position
-                minimize_btn.rect.x = WIDTH - 80
+                minimize_btn.update_position(WIDTH, HEIGHT)
                 maximize_btn.rect.x = WIDTH - 45
+                maximize_btn.rect.y = 10
                 close_btn.rect.x = WIDTH - 15
+                close_btn.rect.y = 10
             
         # Check for button clicks
         if button1.is_clicked(mouse_pos, event):
-            print("Start Game button clicked!")
+            print("Sign In button clicked!")
             
         if button2.is_clicked(mouse_pos, event):
-            print("Settings button clicked!")
+            print("Sign Up button clicked!")
             
         # Check for control button clicks
         if minimize_btn.is_clicked(mouse_pos, event):
