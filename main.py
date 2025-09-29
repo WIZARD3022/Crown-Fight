@@ -209,13 +209,13 @@ while running:
     screen.blit(overlay, (0, 0))
     
     # Draw title with shadow for better visibility
-    title = font.render("My Awesome Game", True, TEXT_COLOR)
-    title_shadow = font.render("My Awesome Game", True, (0, 0, 0))
+    # title = font.render("My Awesome Game", True, TEXT_COLOR)
+    # title_shadow = font.render("My Awesome Game", True, (0, 0, 0))
     
-    # Draw shadow (slightly offset)
-    screen.blit(title_shadow, (current_width//2 - title.get_width()//2 + 2, 42))
-    # Draw main title
-    screen.blit(title, (current_width//2 - title.get_width()//2, 40))
+    # # Draw shadow (slightly offset)
+    # screen.blit(title_shadow, (current_width//2 - title.get_width()//2 + 2, 42))
+    # # Draw main title
+    # screen.blit(title, (current_width//2 - title.get_width()//2, 40))
     
     # Draw main buttons
     button1.draw(screen)
@@ -228,14 +228,14 @@ while running:
         close_btn.draw(screen)
     
     # Draw footer text with shadow
-    footer_text = "Click the buttons to interact with the game | F11: Fullscreen | ESC: Exit Fullscreen"
-    footer = small_font.render(footer_text, True, (220, 220, 220))
-    footer_shadow = small_font.render(footer_text, True, (0, 0, 0))
+    # footer_text = "Click the buttons to interact with the game | F11: Fullscreen | ESC: Exit Fullscreen"
+    # footer = small_font.render(footer_text, True, (220, 220, 220))
+    # footer_shadow = small_font.render(footer_text, True, (0, 0, 0))
     
-    # Draw shadow
-    screen.blit(footer_shadow, (current_width//2 - footer.get_width()//2 + 1, current_height - 49))
-    # Draw main text
-    screen.blit(footer, (current_width//2 - footer.get_width()//2, current_height - 50))
+    # # Draw shadow
+    # screen.blit(footer_shadow, (current_width//2 - footer.get_width()//2 + 1, current_height - 49))
+    # # Draw main text
+    # screen.blit(footer, (current_width//2 - footer.get_width()//2, current_height - 50))
     
     # Draw window state info
     state_text = "Fullscreen" if is_fullscreen else "Windowed"
