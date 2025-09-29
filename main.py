@@ -23,12 +23,25 @@ small_font = pygame.font.SysFont("Arial", 24)
 
 # Create a sample image (in a real game, you would load your own image)
 # For demonstration, we'll create a placeholder image
-image_surface = pygame.Surface((400, 300))
-image_surface.fill((50, 120, 200))
-pygame.draw.rect(image_surface, (30, 80, 160), (10, 10, 380, 280), 5)
-text = small_font.render("Game Image", True, (255, 255, 255))
-text_rect = text.get_rect(center=(200, 150))
-image_surface.blit(text, text_rect)
+# Load your image (make sure the path is correct)
+try:
+    image_surface = pygame.image.load("Data\Images\Front.jpg")
+    # Scale the image if needed
+    image_surface = pygame.transform.scale(image_surface, (400, 300))
+except:
+    # Fallback to placeholder if image loading fails
+    image_surface = pygame.Surface((400, 300))
+    image_surface.fill((50, 120, 200))
+    text = small_font.render("Image Not Found", True, (255, 255, 255))
+    text_rect = text.get_rect(center=(200, 150))
+    image_surface.blit(text, text_rect)
+
+# image_surface = pygame.Surface((400, 300))
+# image_surface.fill((50, 120, 200))
+# pygame.draw.rect(image_surface, (30, 80, 160), (10, 10, 380, 280), 5)
+# text = small_font.render("Game Image", True, (255, 255, 255))
+# text_rect = text.get_rect(center=(200, 150))
+# image_surface.blit(text, text_rect)
 
 # Button class
 class Button:
