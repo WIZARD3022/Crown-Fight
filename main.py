@@ -11,7 +11,6 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Game Interface")
 
 # Colors
-BACKGROUND = (40, 44, 52)
 BUTTON_COLOR = (86, 98, 246)
 BUTTON_HOVER = (108, 119, 252)
 BUTTON_TEXT = (255, 255, 255)
@@ -21,27 +20,22 @@ TEXT_COLOR = (220, 220, 220)
 font = pygame.font.SysFont("Arial", 32)
 small_font = pygame.font.SysFont("Arial", 24)
 
-# Create a sample image (in a real game, you would load your own image)
-# For demonstration, we'll create a placeholder image
-# Load your image (make sure the path is correct)
+# Load and scale background image to fill the entire screen
 try:
-    image_surface = pygame.image.load("Data\Images\Front.jpg")
-    # Scale the image if needed
-    image_surface = pygame.transform.scale(image_surface, (400, 300))
+    background_image = pygame.image.load("Data\\Images\\Front.jpg")
+    # Scale the image to fit the screen dimensions
+    background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
+    image_loaded = True
 except:
-    # Fallback to placeholder if image loading fails
-    image_surface = pygame.Surface((400, 300))
-    image_surface.fill((50, 120, 200))
-    text = small_font.render("Image Not Found", True, (255, 255, 255))
-    text_rect = text.get_rect(center=(200, 150))
-    image_surface.blit(text, text_rect)
+    # Fallback to solid color if image loading fails
+    background_image = pygame.Surface((WIDTH, HEIGHT))
+    background_image.fill((40, 44, 52))
+    image_loaded = False
+    print("Background image not found. Using solid color background.")
 
-# image_surface = pygame.Surface((400, 300))
-# image_surface.fill((50, 120, 200))
-# pygame.draw.rect(image_surface, (30, 80, 160), (10, 10, 380, 280), 5)
-# text = small_font.render("Game Image", True, (255, 255, 255))
-# text_rect = text.get_rect(center=(200, 150))
-# image_surface.blit(text, text_rect)
+# Create a semi-transparent overlay for better button visibility
+overlay = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
+overlay.fill((0, 0, 0, 128))  # Black with 50% transparency
 
 # Button class
 class Button:
@@ -94,21 +88,32 @@ while running:
     button2.check_hover(mouse_pos)
     
     # Draw everything
-    screen.fill(BACKGROUND)
+    # Draw background image
+    screen.blit(background_image, (0, 0))
     
-    # Draw title
+    # Draw semi-transparent overlay for better text readability
+    screen.blit(overlay, (0, 0))
+    
+    # Draw title with shadow for better visibility
     title = font.render("My Awesome Game", True, TEXT_COLOR)
-    screen.blit(title, (WIDTH//2 - title.get_width()//2, 40))
+    title_shadow = font.render("My Awesome Game", True, (0, 0, 0))
     
-    # Draw image
-    screen.blit(image_surface, (WIDTH//2 - image_surface.get_width()//2, 120))
+    # Draw shadow (slightly offset)
+    screen.blit(title_shadow, (WIDTH//2 - title.get_width()//2 + 2, 42))
+    # Draw main title
+    screen.blit(title, (WIDTH//2 - title.get_width()//2, 40))
     
     # Draw buttons
     button1.draw(screen)
     button2.draw(screen)
     
-    # Draw footer text
-    footer = small_font.render("Click the buttons to interact with the game", True, (150, 150, 150))
+    # Draw footer text with shadow
+    footer = small_font.render("Click the buttons to interact with the game", True, (220, 220, 220))
+    footer_shadow = small_font.render("Click the buttons to interact with the game", True, (0, 0, 0))
+    
+    # Draw shadow
+    screen.blit(footer_shadow, (WIDTH//2 - footer.get_width()//2 + 1, HEIGHT - 49))
+    # Draw main text
     screen.blit(footer, (WIDTH//2 - footer.get_width()//2, HEIGHT - 50))
     
     pygame.display.flip()
