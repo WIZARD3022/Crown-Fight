@@ -76,8 +76,8 @@ class Button:
         return False
 
 # Create buttons
-button1 = Button(WIDTH//2 - 150, HEIGHT - 120, 140, 50, "Start Game")
-button2 = Button(WIDTH//2 + 10, HEIGHT - 120, 140, 50, "Settings")
+button1 = Button(WIDTH//2 - 150, HEIGHT - 120, 140, 50, "Sign In")
+button2 = Button(WIDTH//2 + 10, HEIGHT - 120, 140, 50, "Sign Up")
 
 # Control buttons for window management
 class ControlButton:
@@ -135,7 +135,7 @@ while running:
                 overlay = create_overlay(WIDTH, HEIGHT)
                 # Update button positions
                 button1.update_position(WIDTH, HEIGHT)
-                button2.rect.x = WIDTH//2 + 10
+                button2.rect.x = WIDTH//2 + 100
                 button2.rect.y = HEIGHT - 120
                 # Update control buttons position
                 minimize_btn.rect.x = WIDTH - 80
