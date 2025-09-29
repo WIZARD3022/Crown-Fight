@@ -651,7 +651,6 @@
 
 # pygame.quit()
 # sys.exit()
-
 import pygame
 import sys
 import os
@@ -698,6 +697,16 @@ DEBUG_MODE = os.getenv('DEBUG_MODE', 'False').lower() == 'true'
 print(f"Connecting to MongoDB: {MONGODB_URI}")
 print(f"Database: {DATABASE_NAME}")
 
+# Safe print function for Windows console
+def safe_print(message):
+    """Print messages safely without Unicode emojis for Windows compatibility"""
+    try:
+        print(message)
+    except UnicodeEncodeError:
+        # Replace Unicode characters with ASCII equivalents
+        safe_message = message.encode('ascii', 'replace').decode('ascii')
+        print(safe_message)
+
 # MongoDB Configuration
 class MongoDB:
     def __init__(self, connection_string=MONGODB_URI, db_name=DATABASE_NAME):
@@ -710,22 +719,26 @@ class MongoDB:
     
     def connect(self):
         try:
-            self.client = MongoClient(self.connection_string, serverSelectionTimeoutMS=5000)
-            # Test connection
+            safe_print("Attempting to connect to MongoDB...")
+            self.client = MongoClient(self.connection_string, serverSelectionTimeoutMS=10000)
+            
+            # Test connection with longer timeout
             self.client.server_info()
             self.db = self.client[self.db_name]
             self.users_collection = self.db.users
-            print("✅ Successfully connected to MongoDB!")
+            safe_print("SUCCESS: Connected to MongoDB!")
             
             # Create unique indexes
             self.users_collection.create_index("username", unique=True)
             self.users_collection.create_index("email", unique=True)
+            safe_print("Database indexes created successfully.")
             
         except ConnectionFailure as e:
-            print(f"❌ Could not connect to MongoDB: {e}")
+            safe_print(f"ERROR: Could not connect to MongoDB: {e}")
+            safe_print("Please check your connection string and ensure MongoDB is running.")
             self.client = None
         except Exception as e:
-            print(f"❌ Unexpected error: {e}")
+            safe_print(f"ERROR: Unexpected error: {e}")
             self.client = None
     
     def is_connected(self):
@@ -743,11 +756,14 @@ class MongoDB:
         
         try:
             result = self.users_collection.insert_one(user_data)
-            return True, f"User created with ID: {result.inserted_id}"
+            safe_print(f"User created successfully with ID: {result.inserted_id}")
+            return True, "Account created successfully!"
         except DuplicateKeyError as e:
             field = "username" if "username" in str(e) else "email"
+            safe_print(f"Duplicate key error: {field} already exists")
             return False, f"{field.capitalize()} already exists"
         except Exception as e:
+            safe_print(f"Database insertion error: {e}")
             return False, f"Database error: {str(e)}"
     
     def find_user(self, query):
@@ -884,12 +900,17 @@ def sign_in(username, password):
     if user and verify_password(password, user["password_hash"]):
         # Update last login
         if mongo_db.is_connected():
-            mongo_db.users_collection.update_one(
-                {"_id": user["_id"]},
-                {"$set": {"last_login": datetime.utcnow()}}
-            )
+            try:
+                mongo_db.users_collection.update_one(
+                    {"_id": user["_id"]},
+                    {"$set": {"last_login": datetime.utcnow()}}
+                )
+                safe_print(f"User {user['username']} logged in successfully")
+            except Exception as e:
+                safe_print(f"Warning: Could not update last login: {e}")
         return True, f"Welcome back, {user['username']}!"
     else:
+        safe_print(f"Failed login attempt for: {username}")
         return False, "Invalid username/email or password"
 
 # Load background image
@@ -1098,7 +1119,7 @@ while running:
 # Close MongoDB connection when exiting
 if mongo_db.client:
     mongo_db.client.close()
-    print("MongoDB connection closed.")
+    safe_print("MongoDB connection closed.")
 
 pygame.quit()
 sys.exit()
