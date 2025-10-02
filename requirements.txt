@@ -1,0 +1,4 @@
+pymongo
+pygame
+bcrypt
+python-dotenv
