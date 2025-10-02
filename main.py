@@ -2364,22 +2364,16 @@ ROLE_MAPPING = {
 # Character images mapping (you'll need to update these with actual file paths)
 CHARACTER_IMAGES = {
     'Barbarian / Monk (Melee DPS)': [
-        'Data/character/logo/barbarian1.png',
-        'Data/character/logo/barbarian2.png',
-        'Data/character/logo/monk1.png',
-        'Data/character/logo/monk2.png'
+        'Data/character/logo/barbarian.png',
+        'Data/character/logo/monk.png'
     ],
     'Fighter/Knight (Tank)': [
-        'Data/character/logo/fighter1.png',
-        'Data/character/logo/fighter2.png',
-        'Data/character/logo/knight1.png',
-        'Data/character/logo/knight2.png'
+        'Data/character/logo/fighter.png',
+        'Data/character/logo/knight.png',
     ],
     'Rogue / Scout-Ranger (Stealth/Agile)': [
-        'Data/character/logo/rogue1.png',
-        'Data/character/logo/rogue2.png',
-        'Data/character/logo/ranger1.png',
-        'Data/character/logo/ranger2.png'
+        'Data/character/logo/rogue.png',
+        'Data/character/logo/ranger.png',
     ],
     'Gunman / Ranger (Ranged Physical)': [
         'Data/character/logo/gunman1.png',
